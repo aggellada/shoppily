@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+generator frontend_types {
+  provider = "prisma-client-js"
+  output   = "../../client/src/types/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile Profile?
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  address   String   @default("No address")
+  phone     String   @default("No phone")
+  picture   String?
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
+  userId String @unique
+
+  shop   Shop?
+  cart   Cart?
+  orders Order[]
+}
+
+model Shop {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId String  @unique
+
+  items     Item[]
+  orders    Order[]
+  cartItems CartItem[]
+}
+
+model Item {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Decimal
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  shop   Shop   @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  shopId String
+
+  carts CartItem[]
+}
+
+model Cart {
+  id String @id @default(uuid())
+
+  profile   Profile @relation(references: [id], fields: [profileId])
+  profileId String  @unique
+
+  items  CartItem[]
+  orders Order[]
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId String
+
+  item   Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId Int
+
+  shop   Shop   @relation(fields: [shopId], references: [id])
+  shopId String
+
+  @@unique([cartId, itemId, shopId])
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  // totalAmount Decimal
+  // status      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+
+  shop   Shop   @relation(fields: [shopId], references: [id])
+  shopId String
+
+  cartItems Cart   @relation(fields: [cartId], references: [id])
+  cartId    String
+}
+
+enum Role {
+  BUYER
+  SELLER
+}
