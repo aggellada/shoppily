@@ -1,17 +1,12 @@
 import { useItemStore } from "../store/useItemStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Search, ShoppingBag } from "lucide-react";
-import { useGlobalStore } from "../store/useGlobalStore";
 import Item from "../components/Item";
 import HomeSkeleton from "../components/loading/HomeSkeleton";
 
 function Home() {
-  const { searchInput, setSearchInput } = useGlobalStore();
+  const [searchInput, setSearchInput] = useState<string>("");
   const { allItems, getItems, searchItems, isGettingAllItems } = useItemStore();
-
-  useEffect(() => {
-    getItems();
-  }, [getItems]);
 
   useEffect(() => {
     if (searchInput === "") {
@@ -19,8 +14,9 @@ function Home() {
     }
   }, [searchInput, getItems]);
 
-  const handleSearchBtn = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchBtn = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (searchInput) {
       searchItems(searchInput);
     }

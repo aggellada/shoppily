@@ -1,15 +1,13 @@
-import { Link, useNavigate } from "react-router"; // Use react-router-dom for web
+import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../store/useAuthStore";
 import { ShoppingCart } from "lucide-react";
-import { useGlobalStore } from "../store/useGlobalStore";
 import { useCartStore } from "../store/useCartStore";
 import { useEffect } from "react";
 
 function Navbar() {
   const { authUser, logout } = useAuthStore();
 
-  const { searchInput } = useGlobalStore();
-  const { cartQuantity, getCartItemsTotalQuantity } = useCartStore();
+  const { cartQuantity, getCartItemsTotalQuantity, gettingCartTotalQty } = useCartStore();
 
   const navigate = useNavigate();
 
@@ -17,26 +15,21 @@ function Navbar() {
     if (authUser?.profile?.role === "BUYER") {
       getCartItemsTotalQuantity();
     }
-  }, [getCartItemsTotalQuantity]);
+  }, [getCartItemsTotalQuantity, authUser]);
 
   const handleLogOutBtn = async () => {
     await logout();
     navigate("/login");
   };
 
-  console.log(authUser);
-
   return (
     <header className="w-full h-16 bg-linear-to-b from-orange-700 to-orange-500 sticky top-0 z-50 text-white shadow-md">
-      {/* 1. Added horizontal padding (px-4 sm:px-6) so it doesn't touch mobile screen edges */}
       <nav className="max-w-7xl w-full m-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Logo */}
         <Link
           to="/"
-          // 2. Added tracking-tight and a subtle hover scale
           className="text-2xl font-bold tracking-tight hover:scale-105 transition-transform"
           onClick={() => {
-            if (searchInput !== "" && window.location.pathname === "/") {
+            if (window.location.pathname === "/") {
               window.location.reload();
             }
           }}
@@ -44,7 +37,6 @@ function Navbar() {
           Shoppily
         </Link>
 
-        {/* Navigation Links */}
         <ul className="flex items-center gap-4 sm:gap-6 font-medium">
           {!authUser && (
             <li>
@@ -62,12 +54,17 @@ function Navbar() {
                 aria-label="View Cart"
               >
                 <ShoppingCart className="w-5 h-5" />
-                <span>{cartQuantity?._count?.items}</span>
+                {!gettingCartTotalQty && cartQuantity && <span>{cartQuantity?._count?.items}</span>}
               </Link>
             </li>
           )}
 
-          {/* Login/Logout Buttons */}
+          {authUser?.profile?.role === "SELLER" && (
+            <li>
+              <Link to="/my-shop/orders">View Orders</Link>
+            </li>
+          )}
+
           <li>
             {authUser ? (
               <button

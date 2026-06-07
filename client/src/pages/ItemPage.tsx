@@ -3,10 +3,11 @@ import { useItemStore } from "../store/useItemStore";
 import { useCartStore } from "../store/useCartStore";
 import { useAuthStore } from "../store/useAuthStore";
 import { useParams, useNavigate } from "react-router";
-import { ShoppingCart, Star, ChevronLeft, Loader2, Package } from "lucide-react";
+import { ShoppingCart, Star, ChevronLeft, Loader2 } from "lucide-react";
 
 function ItemPage() {
-  const { shopId, itemId } = useParams();
+  // shopId to shopName
+  const { itemId } = useParams();
   const navigate = useNavigate();
 
   const { getItem, itemDetails } = useItemStore();
@@ -15,26 +16,25 @@ function ItemPage() {
 
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
-  // ✅ FIX: Added dependencies to ensure it refetches if the URL changes
   useEffect(() => {
-    if (shopId && itemId) {
-      getItem(shopId, itemId);
+    if (itemId) {
+      getItem(itemId);
     }
-  }, [shopId, itemId, getItem]);
+  }, [itemId, getItem]);
 
   const handleAddToCartBtn = async () => {
     if (!authUser) {
       return navigate("/login");
     }
-    if (!shopId || !itemDetails) return;
+    if ( !itemDetails) return;
 
     setIsAddingToCart(true);
-    // Assuming addToCart takes shopId (string) and itemId (number)
-    await addToCart(shopId, itemDetails.id);
+    await addToCart(itemDetails.shop.id, itemDetails.id);
     setIsAddingToCart(false);
   };
 
-  // 1. Loading State (While fetching item details)
+  console.log(itemDetails)
+
   if (!itemDetails) {
     return (
       <div className="w-full min-h-[60vh] flex flex-col justify-center items-center">
@@ -44,18 +44,17 @@ function ItemPage() {
     );
   }
 
-  // Ensure price is treated as a number for formatting, since your log showed it as a string "500"
   const formattedPrice = Number(itemDetails.price).toLocaleString();
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       {/* Optional: Back Button */}
       <button
         onClick={() => navigate(-1)}
         className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors mb-8 w-fit hover:cursor-pointer"
       >
         <ChevronLeft className="w-4 h-4 mr-1" />
-        Back to shopping
+        Back
       </button>
 
       {/* Main Product Layout */}
@@ -123,8 +122,6 @@ function ItemPage() {
                 </>
               )}
             </button>
-
-            {/* Trust Badges */}
           </div>
         </div>
       </div>

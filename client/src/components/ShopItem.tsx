@@ -29,7 +29,7 @@ function ShopItem({ item, shop }: { item: any; shop: any }) {
       onClick={() => navigate(`/shop/${shop.name}/${item.id}`)}
     >
       <img
-        src="https://www.shutterstock.com/image-photo/cosmetic-cream-tubes-hands-set-260nw-2406148543.jpg"
+        src={item.image}
         alt="product image"
         // 2. Image constraint so large uploads don't break mobile views
         className="w-full h-48 object-cover rounded-lg mb-2"

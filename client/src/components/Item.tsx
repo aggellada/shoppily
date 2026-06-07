@@ -1,4 +1,4 @@
-import { Loader, Star } from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { useCartStore } from "../store/useCartStore";
 import { useState } from "react";
@@ -24,13 +24,9 @@ function Item({ item }: { item: any }) {
   return (
     <div
       className="bg-[#FFFFFF] p-4 flex flex-col h-full gap-1 rounded-2xl border-2 border-gray-200 drop-shadow-lg hover:-translate-y-1 transition-transform duration-75 hover:cursor-pointer"
-      onClick={() => navigate(`/shop/${item.shopId}/${item.id}`)}
+      onClick={() => navigate(`/shop/${item.shop.name}/${item.id}`)}
     >
-      <img
-        src="https://www.shutterstock.com/image-photo/cosmetic-cream-tubes-hands-set-260nw-2406148543.jpg"
-        alt="product image"
-        className="w-full h-48 object-cover rounded-lg mb-2"
-      />
+      <img src={item.image} alt={item.name} className="w-full h-48 object-cover rounded-lg mb-2" />
 
       <div className="flex justify-between gap-2">
         {/* Added `truncate` so long titles don't push the star rating off-screen */}
@@ -66,7 +62,7 @@ function Item({ item }: { item: any }) {
         }}
         disabled={isAddingToCart}
       >
-        {isAddingToCart ? <Loader className="animate-spin m-auto" /> : "Add to Cart"}
+        {isAddingToCart ? <Loader2 className="animate-spin m-auto" /> : "Add to Cart"}
       </button>
     </div>
   );

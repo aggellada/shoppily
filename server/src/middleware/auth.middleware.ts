@@ -11,41 +11,31 @@ interface JwtPayload {
 export const protectRoute = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies.jwt;
-
-    if (!token) {
-      return res.status(400).json({ message: "No token provided." });
-    }
+    if (!token) return res.status(401).json({ message: "No token provided." });
 
     const SECRET = process.env.JWT_SECRET;
-
-    if (!SECRET) {
-      return res.status(400).json({ message: "No secret provided." });
-    }
+    if (!SECRET) return res.status(500).json({ message: "Server configuration error." });
 
     const decoded = jwt.verify(token, SECRET) as JwtPayload;
 
-    if (!decoded) {
-      return res.status(400).json({ message: "Token not decoded." });
-    }
-
+    // Fetch the user and their profile relations in ONE query
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
       include: {
         profile: {
           include: {
             cart: true,
+            shop: true,
           },
         },
       },
       omit: { password: true },
     });
 
-    if (!user) {
-      return res.status(400).json({ message: "No user found." });
-    }
+    if (!user) return res.status(404).json({ message: "User not found." });
 
+    // Attach to request
     req.user = user;
-
     next();
   } catch (error) {
     console.error("Auth Middleware Error:", error);

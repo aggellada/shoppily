@@ -61,13 +61,15 @@ model Item {
   name        String
   price       Decimal
   description String
+  image       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   shop   Shop   @relation(fields: [shopId], references: [id], onDelete: Cascade)
   shopId String
 
-  carts CartItem[]
+  carts      CartItem[]
+  orderItems OrderItem[]
 }
 
 model Cart {
@@ -99,11 +101,11 @@ model CartItem {
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
-  // totalAmount Decimal
-  // status      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid()) // Changed to UUID for security
+  totalAmount Decimal
+  status      String   @default("PENDING") // e.g., PENDING, PAID, SHIPPED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String
@@ -111,8 +113,25 @@ model Order {
   shop   Shop   @relation(fields: [shopId], references: [id])
   shopId String
 
-  cartItems Cart   @relation(fields: [cartId], references: [id])
-  cartId    String
+  orderItems OrderItem[]
+  cart       Cart?       @relation(fields: [cartId], references: [id])
+  cartId     String?
+}
+
+model OrderItem {
+  id String @id @default(uuid())
+
+  productName String
+  priceAtTime Decimal
+  quantity    Int
+
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String
+
+  // Optional: We can still link the original Item ID in case the user wants to "Buy Again", 
+  // but we DO NOT rely on it for pricing!
+  item   Item? @relation(fields: [itemId], references: [id], onDelete: SetNull)
+  itemId Int?
 }
 
 enum Role {

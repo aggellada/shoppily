@@ -6,11 +6,13 @@ import Signup from "./pages/Signup";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/useAuthStore";
 import Home from "./pages/Home";
-import CreateShop from "./pages/CreateShop";
 import { useEffect } from "react";
 import ShopPage from "./pages/Shop";
 import Cart from "./pages/Cart";
 import ItemPage from "./pages/ItemPage";
+import { Loader2 } from "lucide-react";
+import { BuyerRoute, SellerRoute } from "./components/RoleRoute";
+import MyShop from "./pages/seller/MyShop";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -20,24 +22,53 @@ function App() {
   }, [checkAuth]);
 
   if (isCheckingAuth) {
-    return <h1>Checking Auth</h1>;
+    return (
+      <div className="w-full min-h-screen flex flex-col items-center justify-center bg-gray-50">
+        <Loader2 className="w-10 h-10 animate-spin text-orange-600 mb-4" />
+        <p className="text-gray-500 font-medium">Loading Shoppily...</p>
+      </div>
+    );
   }
 
+  console.log(authUser);
+
   return (
-    <div className="w-full min-h-screen bg-[#F5F5F5]">
+    <div className="w-full min-h-screen bg-gray-50">
       <Navbar />
-      <div className="m-auto w-full max-w-5xl ">
+      <div className="m-auto w-full max-w-7xl">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/shop/:shopName" element={<ShopPage />} />
-          <Route path="/shop/:shopId/:itemId" element={<ItemPage />} />
-          <Route path="/login" element={authUser ? <Navigate to="/" /> : <Login />} />
-          <Route path="/cart" element={authUser ? <Cart /> : <Navigate to="/" />} />
-          <Route path="/shop/create" element={authUser ? <CreateShop /> : <Navigate to="/" />} />
+          <Route
+            path="/login"
+            element={
+              !authUser ? (
+                <Login />
+              ) : authUser.profile.role === "SELLER" ? (
+                <Navigate to="/my-shop" />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route path="/signup" element={!authUser ? <Signup /> : <Navigate to="/" />} />
+
+          <Route element={<BuyerRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/shop/:shopName" element={<ShopPage />} />
+            <Route path="/shop/:shopId/:itemId" element={<ItemPage />} />
+          </Route>
+
+          <Route element={<SellerRoute />}>
+            <Route path="/my-shop" element={<MyShop />} />
+          </Route>
+
+          <Route
+            path="*"
+            element={<Navigate to={authUser?.profile?.role === "SELLER" ? "/my-shop" : "/"} />}
+          />
         </Routes>
-        <Toaster />
       </div>
+      <Toaster />
     </div>
   );
 }

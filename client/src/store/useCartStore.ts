@@ -5,6 +5,7 @@ import type { Cart, CartItem, Item } from "../types/prisma";
 interface CartStoreType {
   cart: (Cart & { items: (CartItem & { item: Item })[] }) | null;
   addingToCart: boolean;
+  gettingCartTotalQty: boolean;
   isFetchingUserCart: boolean;
   cartQuantity: any;
   getCart: () => Promise<void>;
@@ -18,8 +19,9 @@ interface CartStoreType {
 export const useCartStore = create<CartStoreType>((set, get) => ({
   addingToCart: false,
   isFetchingUserCart: false,
+  gettingCartTotalQty: false,
   cart: null,
-  cartQuantity: 0,
+  cartQuantity: null,
 
   addToCart: async (shopId: string, itemId: number) => {
     try {
@@ -126,6 +128,7 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
   },
 
   getCartItemsTotalQuantity: async () => {
+    set({ gettingCartTotalQty: true });
     try {
       const response = await fetch("http://localhost:5000/api/cart/total", {
         method: "GET",
@@ -141,6 +144,8 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
       set({ cartQuantity: data.data });
     } catch (error) {
       console.error("error in getCartItemsTotalQuantity store", error);
+    } finally {
+      set({ gettingCartTotalQty: false });
     }
   },
 }));

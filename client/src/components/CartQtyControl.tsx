@@ -31,7 +31,7 @@ function CartQtyControl({ shopId, itemId, itemQty }: { shopId: string; itemId: n
     >
       <button
         onClick={(e) => handleDecrementBtn(e, shopId, itemId)}
-        className="p-1 hover:bg-white rounded-md transition-colors"
+        className="p-1 hover:bg-white rounded-md transition-colors hover:cursor-pointer"
         disabled={isUpdatingQty}
       >
         <Minus className="w-4 h-4 text-gray-600" />
@@ -39,7 +39,7 @@ function CartQtyControl({ shopId, itemId, itemQty }: { shopId: string; itemId: n
       <span className="w-6 text-center font-semibold text-gray-900">{itemQty}</span>
       <button
         onClick={(e) => handleIncrementBtn(e, shopId, itemId)}
-        className="p-1 hover:bg-white rounded-md transition-colors"
+        className="p-1 hover:bg-white rounded-md transition-colors hover:cursor-pointer"
         disabled={isUpdatingQty}
       >
         <Plus className="w-4 h-4 text-gray-600" />

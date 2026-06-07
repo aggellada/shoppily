@@ -6,10 +6,10 @@ interface ItemState {
   allItems: Item[] | [];
   searchingItems: boolean;
   isGettingAllItems: boolean;
-  itemDetails: Item | null;
+  itemDetails: (Item & { shop: { id: string } }) | null;
   getItems: () => Promise<void>;
   searchItems: (itemName: string) => Promise<void>;
-  getItem: (shopId: string, itemId: string) => Promise<void>;
+  getItem: (itemId: string) => Promise<void>;
 }
 
 export const useItemStore = create<ItemState>((set) => ({
@@ -54,9 +54,9 @@ export const useItemStore = create<ItemState>((set) => ({
     }
   },
 
-  getItem: async (shopId: string, itemId: string) => {
+  getItem: async (itemId: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/item/get/item?shopId=${shopId}&itemId=${itemId}`, {
+      const response = await fetch(`http://localhost:5000/api/item/get/item?itemId=${itemId}`, {
         method: "GET",
         credentials: "include",
       });

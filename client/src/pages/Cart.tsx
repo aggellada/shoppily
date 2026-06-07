@@ -73,7 +73,7 @@ function Cart() {
               return (
                 <div
                   key={cartItem.id}
-                  className="group grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-4 md:px-6 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow"
+                  className="group grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-4 md:px-6 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow hover:cursor-pointer"
                   onClick={() => navigate(`/shop/${cartItem.shopId}/${cartItem.itemId}`)}
                 >
                   {/* Product Info */}
@@ -90,7 +90,7 @@ function Cart() {
                           e.stopPropagation();
                           deleteCartItem(cartItem.item.shopId, cartItem.item.id);
                         }}
-                        className="text-red-500 text-sm font-medium hover:text-red-600 flex items-center gap-1 mt-1 md:opacity-0 group-hover:opacity-100 transition-opacity w-fit"
+                        className="text-red-500 text-sm font-medium hover:text-red-600 flex items-center gap-1 mt-1 md:opacity-0 group-hover:opacity-100 transition-opacity w-fit hover:cursor-pointer"
                       >
                         <Trash2 className="w-4 h-4" /> Remove
                       </button>
