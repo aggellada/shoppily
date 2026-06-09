@@ -1,17 +1,24 @@
 import { useEffect } from "react";
 import { useCartStore } from "../store/useCartStore";
-import { Trash2, ShoppingBag } from "lucide-react";
+import { Trash2, ShoppingBag, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import CartQtyControl from "../components/CartQtyControl";
+import { useOrderStore } from "../store/useOrderStore";
 
 function Cart() {
   const { cart, getCart, deleteCartItem } = useCartStore();
+  const { placeOrder, isPlacingOrder } = useOrderStore();
 
   const navigate = useNavigate();
 
   useEffect(() => {
     getCart();
   }, [getCart]);
+
+  const handlePlaceOrderBtn = async () => {
+    await placeOrder(getCart);
+    navigate("/orders");
+  };
 
   if (!cart) {
     return (
@@ -24,9 +31,6 @@ function Cart() {
     );
   }
 
-  // console.log(cart);
-
-  // 1. Empty State
   if (cart.items.length === 0) {
     return (
       <div className="w-full max-w-7xl mx-auto px-4 py-20 flex flex-col items-center justify-center text-center">
@@ -45,7 +49,6 @@ function Cart() {
     );
   }
 
-  // 2. Calculate Order Total
   const cartTotal = cart.items.reduce((total: number, cartItem: any) => {
     return total + cartItem.item.price * cartItem.quantity;
   }, 0);
@@ -55,9 +58,7 @@ function Cart() {
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
 
       <div className="flex flex-col lg:flex-row gap-8 items-start">
-        {/* Left Side: Cart Items List */}
         <div className="w-full lg:w-2/3 flex flex-col gap-4">
-          {/* Desktop Headers (Hidden on Mobile) */}
           <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-gray-50 rounded-2xl text-sm font-semibold text-gray-500 uppercase tracking-wider">
             <div className="col-span-6">Product</div>
             <div className="col-span-2 text-center">Price</div>
@@ -65,7 +66,6 @@ function Cart() {
             <div className="col-span-2 text-right">Total</div>
           </div>
 
-          {/* Cart Items */}
           <div className="flex flex-col gap-4">
             {cart.items.map((cartItem: any) => {
               const itemTotalPrice = cartItem.item.price * cartItem.quantity;
@@ -76,10 +76,9 @@ function Cart() {
                   className="group grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-4 md:px-6 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow hover:cursor-pointer"
                   onClick={() => navigate(`/shop/${cartItem.shopId}/${cartItem.itemId}`)}
                 >
-                  {/* Product Info */}
                   <div className="col-span-1 md:col-span-6 flex gap-4 items-center">
                     <img
-                      src="https://www.shutterstock.com/image-photo/cosmetic-cream-tubes-hands-set-260nw-2406148543.jpg"
+                      src={cartItem.item.image}
                       alt={cartItem.item.name}
                       className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl border border-gray-100"
                     />
@@ -97,14 +96,11 @@ function Cart() {
                     </div>
                   </div>
 
-                  {/* Unit Price (Hidden on mobile to save space, shown on desktop) */}
                   <div className="hidden md:block col-span-2 text-center font-medium text-gray-500">
                     ₱{cartItem.item.price.toLocaleString()}
                   </div>
 
-                  {/* Quantity Controls */}
                   <div className="col-span-1 md:col-span-2 flex justify-between md:justify-center items-center w-full mt-4 md:mt-0">
-                    {/* Mobile label */}
                     <span className="md:hidden font-medium text-gray-500">Quantity:</span>
 
                     <CartQtyControl
@@ -114,7 +110,6 @@ function Cart() {
                     />
                   </div>
 
-                  {/* Total Price per Item */}
                   <div className="col-span-1 md:col-span-2 flex justify-between md:justify-end items-center w-full mt-2 md:mt-0">
                     <span className="md:hidden font-medium text-gray-500">Total:</span>
                     <span className="font-bold text-gray-900 text-lg">
@@ -127,7 +122,6 @@ function Cart() {
           </div>
         </div>
 
-        {/* Right Side: Order Summary Bento Box */}
         <div className="w-full lg:w-1/3 bg-gray-50 border border-gray-200 rounded-3xl p-6 lg:p-8 sticky top-24">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
 
@@ -147,8 +141,11 @@ function Cart() {
             </div>
           </div>
 
-          <button className="w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-lg hover:bg-gray-800 hover:shadow-lg transition-all active:scale-[0.98]">
-            Proceed to Checkout
+          <button
+            className="w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-lg hover:bg-gray-800 hover:shadow-lg transition-all active:scale-[0.98] hover:cursor-pointer"
+            onClick={() => handlePlaceOrderBtn()}
+          >
+            {isPlacingOrder ? <Loader2 className="animate-spin m-auto" /> : "Place Order"}
           </button>
         </div>
       </div>

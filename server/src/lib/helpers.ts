@@ -10,6 +10,9 @@ export const fetchCartData = async (profileId: string) => {
           itemId: "desc",
         },
       },
+      _count: {
+        select: { items: true },
+      },
     },
   });
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSellerStore } from "../../store/sellerStore/useSellerStore";
 import { Package, ShoppingBag, Store, TrendingUp, X } from "lucide-react";
-import SellerItem from "../../components/seller/SellerItem";
+import SellerItem from "../../components/SellerItem";
 
 function MyShop() {
   const [modal, setModal] = useState<boolean>(false);
@@ -80,11 +80,11 @@ function MyShop() {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="add-imageLink" className="text-sm font-semibold text-gray-700">
+                <label htmlFor="image" className="text-sm font-semibold text-gray-700">
                   Image Link
                 </label>
                 <input
-                  id="add-imageLink"
+                  id="image"
                   name="image"
                   type="url"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
@@ -185,7 +185,7 @@ function MyShop() {
       {shop?.items && shop.items.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {shop.items.map((item: any) => (
-            <SellerItem key={item.id} item={item} shop={shop} />
+            <SellerItem key={item.id} item={item} />
           ))}
         </div>
       ) : (

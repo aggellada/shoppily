@@ -5,6 +5,7 @@ import type { Item } from "../types/prisma";
 interface ItemState {
   allItems: Item[] | [];
   searchingItems: boolean;
+  isFetchingItemDetails: boolean;
   isGettingAllItems: boolean;
   itemDetails: (Item & { shop: { id: string } }) | null;
   getItems: () => Promise<void>;
@@ -16,6 +17,7 @@ export const useItemStore = create<ItemState>((set) => ({
   allItems: [],
   searchingItems: false,
   isGettingAllItems: false,
+  isFetchingItemDetails: false,
   itemDetails: null,
 
   getItems: async () => {
@@ -55,6 +57,7 @@ export const useItemStore = create<ItemState>((set) => ({
   },
 
   getItem: async (itemId: string) => {
+    set({ isFetchingItemDetails: true });
     try {
       const response = await fetch(`http://localhost:5000/api/item/get/item?itemId=${itemId}`, {
         method: "GET",
@@ -66,6 +69,8 @@ export const useItemStore = create<ItemState>((set) => ({
       set({ itemDetails: data.data });
     } catch (error) {
       console.error("Error in getItem store", error);
+    } finally {
+      set({ isFetchingItemDetails: false });
     }
   },
 }));

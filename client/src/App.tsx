@@ -13,6 +13,8 @@ import ItemPage from "./pages/ItemPage";
 import { Loader2 } from "lucide-react";
 import { BuyerRoute, SellerRoute } from "./components/RoleRoute";
 import MyShop from "./pages/seller/MyShop";
+import OrdersProfile from "./pages/OrdersProfile";
+import MyShopOrders from "./pages/seller/MyShopOrders";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -54,12 +56,14 @@ function App() {
           <Route element={<BuyerRoute />}>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/orders" element={<OrdersProfile />} />
             <Route path="/shop/:shopName" element={<ShopPage />} />
             <Route path="/shop/:shopId/:itemId" element={<ItemPage />} />
           </Route>
 
           <Route element={<SellerRoute />}>
             <Route path="/my-shop" element={<MyShop />} />
+            <Route path="/my-shop/orders" element={<MyShopOrders />} />
           </Route>
 
           <Route

@@ -1,8 +1,8 @@
 import { Loader2, Star, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useSellerStore } from "../../store/sellerStore/useSellerStore";
+import { useSellerStore } from "../store/sellerStore/useSellerStore";
 
-function SellerItem({ item, shop }: { item: any; shop: any }) {
+function SellerItem({ item }: { item: any }) {
   const [modal, setModal] = useState<boolean>(false);
   const [isDeletingItem, setIsDeletingItem] = useState<boolean>(false);
   const [isEditingItem, setIsEditingItem] = useState<boolean>(false);
@@ -87,11 +87,11 @@ function SellerItem({ item, shop }: { item: any; shop: any }) {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="edit-imageLink" className="text-sm font-semibold text-gray-700">
+                <label htmlFor="image" className="text-sm font-semibold text-gray-700">
                   Image Link
                 </label>
                 <input
-                  id="edit-imageLink"
+                  id="image"
                   name="image"
                   type="string"
                   defaultValue={item.image}

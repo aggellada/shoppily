@@ -1,6 +1,7 @@
 import express from "express";
 import { isBuyer, isSeller, protectRoute } from "../middleware/auth.middleware";
-import { getProfileOrders, getShopOrders, placeOrder } from "../controller/order.controller";
+import { getProfileOrders, placeOrder } from "../controller/buyer/order.controller";
+import { getShopOrders } from "../controller/seller/seller.order.controller";
 
 const router = express.Router();
 

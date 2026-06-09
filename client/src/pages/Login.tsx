@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { useAuthStore } from "../store/useAuthStore";
+import { Loader2 } from "lucide-react";
 
 function Login() {
   const { login, isLoggingIn } = useAuthStore();
@@ -15,7 +16,6 @@ function Login() {
 
   return (
     <div className="w-full min-h-[calc(100vh-3.5rem)] flex justify-center items-center p-4 sm:p-8 ">
-      {/* Main Form Container */}
       <div className="w-full max-w-md bg-white p-8 rounded-4xl shadow-sm border border-gray-100">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Welcome back</h1>
@@ -42,13 +42,12 @@ function Login() {
           <button
             type="submit"
             disabled={isLoggingIn}
-            className="w-full mt-2 p-3.5 bg-gray-900 text-white rounded-xl text-sm font-semibold tracking-wide hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all"
+            className="w-full mt-2 p-3.5 bg-gray-900 text-white rounded-xl text-sm font-semibold tracking-wide hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all hover:cursor-pointer"
           >
-            {isLoggingIn ? "Logging in..." : "Log in"}
+            {isLoggingIn ? <Loader2 className="animate-spin m-auto" /> : "Log in"}
           </button>
         </form>
 
-        {/* Helpful redirect for new users */}
         <p className="text-center text-sm text-gray-500 mt-6">
           Don't have an account?{" "}
           <Link

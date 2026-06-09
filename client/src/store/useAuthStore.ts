@@ -44,6 +44,7 @@ export const useAuthStore = create<AuthType>((set) => ({
   },
 
   login: async (formData: any) => {
+    set({ isLoggingIn: true });
     try {
       const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
@@ -63,6 +64,8 @@ export const useAuthStore = create<AuthType>((set) => ({
       toast.success(data.message);
     } catch (error) {
       console.error("Error in login store", error);
+    } finally {
+      set({ isLoggingIn: false });
     }
   },
 

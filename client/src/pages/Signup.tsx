@@ -21,7 +21,6 @@ function Signup() {
 
   return (
     <div className="w-full min-h-[calc(100vh-3.5rem)] flex justify-center items-center p-4 sm:p-8 ">
-      {/* Main Form Container */}
       <div className="w-full max-w-md bg-white p-8 rounded-4xl shadow-sm border border-gray-100">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Create an account</h1>
@@ -29,7 +28,6 @@ function Signup() {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {/* Side-by-side First and Last Name */}
           <div className="flex flex-col sm:flex-row gap-4">
             <input
               type="text"
@@ -71,7 +69,6 @@ function Signup() {
             className="w-full p-3.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
           />
 
-          {/* Styled Select Dropdown */}
           <div className="relative">
             <select
               name="role"
@@ -81,7 +78,6 @@ function Signup() {
               <option value="BUYER">I want to buy items</option>
               <option value="SELLER">I want to sell items</option>
             </select>
-            {/* Custom dropdown arrow to replace the ugly default browser one */}
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
               <svg className="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
@@ -89,7 +85,6 @@ function Signup() {
             </div>
           </div>
 
-          {/* Conditional Shop Name Input */}
           {userRole === "SELLER" && (
             <input
               type="text"

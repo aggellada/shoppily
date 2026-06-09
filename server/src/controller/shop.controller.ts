@@ -49,29 +49,3 @@ export const getShopByName = async (req: Request, res: Response) => {
     }
   }
 };
-
-// export const createShop = async (req: Request, res: Response) => {
-//   try {
-//     const { name } = req.body;
-
-//     if (!name || !req.user?.profile) {
-//       return res.status(400).json({ success: false, message: "ASD" });
-//     }
-
-//     const { id } = req.user.profile;
-
-//     const newShop = await prisma.shop.create({ data: { name, profileId: id } });
-
-//     return res
-//       .status(200)
-//       .json({ success: true, message: "Your shop was successfully created.", data: newShop });
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       console.error("Error in createShop:", error.message);
-//       return res.status(500).json({
-//         success: false,
-//         message: "Internal server error",
-//       });
-//     }
-//   }
-// };

@@ -1,26 +1,20 @@
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useAuthStore } from "../store/useAuthStore";
 import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "../store/useCartStore";
 import { useEffect } from "react";
+import UserDropdown from "./ui/UserDropdown";
 
 function Navbar() {
-  const { authUser, logout } = useAuthStore();
+  const { authUser } = useAuthStore();
 
-  const { cartQuantity, getCartItemsTotalQuantity, gettingCartTotalQty } = useCartStore();
-
-  const navigate = useNavigate();
+  const { cart, getCart } = useCartStore();
 
   useEffect(() => {
     if (authUser?.profile?.role === "BUYER") {
-      getCartItemsTotalQuantity();
+      getCart();
     }
-  }, [getCartItemsTotalQuantity, authUser]);
-
-  const handleLogOutBtn = async () => {
-    await logout();
-    navigate("/login");
-  };
+  }, [getCart, authUser]);
 
   return (
     <header className="w-full h-16 bg-linear-to-b from-orange-700 to-orange-500 sticky top-0 z-50 text-white shadow-md">
@@ -37,7 +31,7 @@ function Navbar() {
           Shoppily
         </Link>
 
-        <ul className="flex items-center gap-4 sm:gap-6 font-medium">
+        <ul className="flex items-center gap-2 sm:gap-4 font-medium">
           {!authUser && (
             <li>
               <Link to="/signup" className="hover:text-orange-200 transition-colors">
@@ -54,7 +48,7 @@ function Navbar() {
                 aria-label="View Cart"
               >
                 <ShoppingCart className="w-5 h-5" />
-                {!gettingCartTotalQty && cartQuantity && <span>{cartQuantity?._count?.items}</span>}
+                {cart?._count?.items}
               </Link>
             </li>
           )}
@@ -66,14 +60,7 @@ function Navbar() {
           )}
 
           <li>
-            {authUser ? (
-              <button
-                onClick={handleLogOutBtn}
-                className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 transition-colors hover:cursor-pointer"
-              >
-                Log out
-              </button>
-            ) : (
+            {!authUser && (
               <Link
                 to="/login"
                 className="px-5 py-2.5 rounded-lg bg-white text-orange-600 hover:bg-orange-50 font-semibold shadow-sm transition-colors"
@@ -82,6 +69,7 @@ function Navbar() {
               </Link>
             )}
           </li>
+          {authUser && <UserDropdown />}
         </ul>
       </nav>
     </header>

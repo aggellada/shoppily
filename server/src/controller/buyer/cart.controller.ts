@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
-import { fetchCartData } from "../lib/helpers";
+import { prisma } from "../../lib/prisma";
+import { fetchCartData } from "../../lib/helpers";
 
 export const getCart = async (req: Request, res: Response) => {
   try {
@@ -120,9 +120,7 @@ export const deleteCartItem = async (req: Request, res: Response) => {
 
     const userCart = await fetchCartData(profileId);
 
-    return res
-      .status(200)
-      .json({ success: true, data: userCart, message: "Item removed from cart successfully" });
+    return res.status(200).json({ success: true, data: userCart, message: "Item removed from cart" });
   } catch (error) {
     if (error instanceof Error) {
       console.error("Error in deleteCartItem controller:", error.message);
@@ -231,28 +229,6 @@ export const decrementItemCartQty = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json({ success: true, message: "Cart updated successfully", data: userCart });
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error in incrementItemCartQty controller:", error.message);
-      return res.status(500).json({ success: false, message: "Internal Server Error" });
-    }
-  }
-};
-
-export const getCartItemsTotalQuantity = async (req: Request, res: Response) => {
-  try {
-    const profileCartId = req.user?.profile?.cart?.id;
-
-    if (!req.user?.profile || !profileCartId) {
-      return res.status(401).json({ success: false, message: "You are not authenticated" });
-    }
-
-    const cartTotalQuantity = await prisma.cart.findUnique({
-      where: { id: profileCartId },
-      select: { _count: true },
-    });
-
-    return res.status(200).json({ success: true, data: cartTotalQuantity });
   } catch (error) {
     if (error instanceof Error) {
       console.error("Error in incrementItemCartQty controller:", error.message);

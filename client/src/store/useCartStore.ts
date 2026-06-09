@@ -3,23 +3,20 @@ import { create } from "zustand";
 import type { Cart, CartItem, Item } from "../types/prisma";
 
 interface CartStoreType {
-  cart: (Cart & { items: (CartItem & { item: Item })[] }) | null;
+  cart: (Cart & { items: (CartItem & { item: Item })[]; _count: { items: number } }) | null;
   addingToCart: boolean;
-  gettingCartTotalQty: boolean;
+
   isFetchingUserCart: boolean;
-  cartQuantity: any;
   getCart: () => Promise<void>;
   addToCart: (shopId: string, itemId: number) => Promise<void>;
   incrementItemCartQty: (shopId: string, itemId: number) => Promise<void>;
   decrementItemCartQty: (shopId: string, itemId: number) => Promise<void>;
-  getCartItemsTotalQuantity: () => Promise<void>;
   deleteCartItem: (shopId: string, itemId: number) => Promise<void>;
 }
 
 export const useCartStore = create<CartStoreType>((set, get) => ({
   addingToCart: false,
   isFetchingUserCart: false,
-  gettingCartTotalQty: false,
   cart: null,
   cartQuantity: null,
 
@@ -37,7 +34,6 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
         throw new Error(data.message);
       }
 
-      get().getCartItemsTotalQuantity();
       get().getCart();
       toast.success(data.message);
     } catch (error) {
@@ -78,7 +74,7 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
       const data = await response.json();
 
       if (data.success) {
-        set({ cart: data.data });
+        get().getCart();
       }
     } catch (error) {
       console.error("error in incrementItemCartQty store", error);
@@ -98,7 +94,7 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
       const data = await response.json();
 
       if (data.success) {
-        set({ cart: data.data });
+        get().getCart();
       }
     } catch (error) {
       console.error("error in incrementItemCartQty store", error);
@@ -118,34 +114,11 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
       const data = await response.json();
 
       if (data.success) {
-        get().getCartItemsTotalQuantity();
-        set({ cart: data.data });
+        get().getCart();
         toast.success(data.message);
       }
     } catch (error) {
       console.error("error in incrementItemCartQty store", error);
-    }
-  },
-
-  getCartItemsTotalQuantity: async () => {
-    set({ gettingCartTotalQty: true });
-    try {
-      const response = await fetch("http://localhost:5000/api/cart/total", {
-        method: "GET",
-        credentials: "include",
-      });
-
-      const data = await response.json();
-
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-
-      set({ cartQuantity: data.data });
-    } catch (error) {
-      console.error("error in getCartItemsTotalQuantity store", error);
-    } finally {
-      set({ gettingCartTotalQty: false });
     }
   },
 }));
