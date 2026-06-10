@@ -77,10 +77,6 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "User does not exists." });
     }
 
-    // if (user.profile?.role === ROLES.SELLER) {
-    // {user.profile?.role === ROLES.SELLER && include: {shop: true}}
-    // }
-
     const verifiedPassword = argon2.verify(user?.password, password);
 
     if (!verifiedPassword) {
@@ -93,13 +89,14 @@ export const login = async (req: Request, res: Response) => {
       throw new Error("No JWT Key");
     }
 
+    const isProduction = process.env.NODE_ENV === "production";
     const token = jwt.sign({ id: user.id, role: user.profile?.role }, secret, { expiresIn: "1d" });
 
     res.cookie("jwt", token, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
     });
 
     const { password: _, ...userWithoutPassword } = user;

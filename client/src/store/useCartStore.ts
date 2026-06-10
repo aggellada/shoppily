@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import type { Cart, CartItem, Item } from "../types/prisma";
+import { API_URL } from "../lib/utils";
 
 interface CartStoreType {
   cart: (Cart & { items: (CartItem & { item: Item })[]; _count: { items: number } }) | null;
@@ -22,7 +23,7 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
 
   addToCart: async (shopId: string, itemId: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/cart/${shopId}/add?itemId=${itemId}`, {
+      const response = await fetch(`${API_URL}/api/cart/${shopId}/add?itemId=${itemId}`, {
         method: "GET",
         credentials: "include",
       });
@@ -44,7 +45,7 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
   getCart: async () => {
     set({ isFetchingUserCart: true });
     try {
-      const response = await fetch("http://localhost:5000/api/cart", {
+      const response = await fetch(`${API_URL}/api/cart`, {
         method: "GET",
         credentials: "include",
       });
@@ -64,7 +65,7 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
   incrementItemCartQty: async (shopId: string, itemId: number) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/cart/increment?shopId=${shopId}&itemId=${itemId}`,
+        `${API_URL}/api/cart/increment?shopId=${shopId}&itemId=${itemId}`,
         {
           method: "PATCH",
           credentials: "include",
@@ -84,7 +85,7 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
   decrementItemCartQty: async (shopId: string, itemId: number) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/cart/decrement?shopId=${shopId}&itemId=${itemId}`,
+        `${API_URL}/api/cart/decrement?shopId=${shopId}&itemId=${itemId}`,
         {
           method: "PATCH",
           credentials: "include",
@@ -104,7 +105,7 @@ export const useCartStore = create<CartStoreType>((set, get) => ({
   deleteCartItem: async (shopId: string, itemId: number) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/cart/delete?shopId=${shopId}&itemId=${itemId}`,
+        `${API_URL}/api/cart/delete?shopId=${shopId}&itemId=${itemId}`,
         {
           method: "DELETE",
           credentials: "include",

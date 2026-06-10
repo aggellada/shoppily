@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
+import { API_URL } from "../lib/utils";
 
 interface AuthType {
   authUser: any;
@@ -21,7 +22,7 @@ export const useAuthStore = create<AuthType>((set) => ({
   checkAuth: async () => {
     set({ isCheckingAuth: true });
     try {
-      const response = await fetch("http://localhost:5000/api/auth/check-auth", {
+      const response = await fetch(`${API_URL}/api/auth/check-auth`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +47,7 @@ export const useAuthStore = create<AuthType>((set) => ({
   login: async (formData: any) => {
     set({ isLoggingIn: true });
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -71,7 +72,7 @@ export const useAuthStore = create<AuthType>((set) => ({
 
   logout: async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/logout", {
+      const response = await fetch(`${API_URL}/api/auth/logout`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -87,7 +88,7 @@ export const useAuthStore = create<AuthType>((set) => ({
 
   signup: async (formData: any) => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
+      const response = await fetch(`${API_URL}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
