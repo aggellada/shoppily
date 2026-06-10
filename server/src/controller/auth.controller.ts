@@ -94,12 +94,13 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign({ id: user.id, role: user.profile?.role }, secret, { expiresIn: "1d" });
+    const isProduction = process.env.NODE_ENV === "production";
 
     res.cookie("jwt", token, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
     });
 
     const { password: _, ...userWithoutPassword } = user;
@@ -132,10 +133,12 @@ export const checkAuth = async (req: Request, res: Response) => {
 
 export const logout = async (req: Request, res: Response) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("jwt", "", {
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
       expires: new Date(0),
     });
 
