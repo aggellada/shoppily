@@ -1,5 +1,7 @@
 import type { Request, Response } from "express";
 import { prisma } from "../../lib/prisma.js";
+import type { Status as StatusType } from "../../generated/prisma/enums.js";
+import { Status } from "../../generated/prisma/enums.js";
 
 export const getShopOrders = async (req: Request, res: Response) => {
   try {
@@ -74,10 +76,22 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
     };
 
     if (!status || !orderId) {
-      return;
+      return res.status(400).json({ success: false, message: "Status and Order ID are required" });
     }
 
-    const updatedOrder = await prisma.order.update({ where: { id: orderId }, data: { status } });
+    const formattedStatus = status.toUpperCase();
+
+    if (!Object.values(Status).includes(formattedStatus as StatusType)) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid status. Must be one of: ${Object.values(Status).join(", ")}`,
+      });
+    }
+
+    const updatedOrder = await prisma.order.update({
+      where: { id: orderId },
+      data: { status: formattedStatus as StatusType },
+    });
 
     if (!updatedOrder) {
       return res.status(500).json({ success: false, message: "Could not update order status" });

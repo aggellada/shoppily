@@ -1,8 +1,6 @@
 import type { Request, Response } from "express";
 import { prisma } from "../../lib/prisma.js";
 
-type CartItemType = NonNullable<Awaited<ReturnType<typeof prisma.cart.findUnique>>>["items"][number];
-
 export const placeOrder = async (req: Request, res: Response) => {
   try {
     if (!req.user?.profile) {
@@ -36,13 +34,13 @@ export const placeOrder = async (req: Request, res: Response) => {
     const profileCartId = profileCart?.id;
     const cartItems = profileCart?.items || [];
 
-    const shopsId = cartItems.map((cartItem: CartItemType) => cartItem.item.shopId);
+    const shopsId = cartItems.map((cartItem: any) => cartItem.item.shopId);
     const uniqueShopIds = [...new Set(shopsId)];
 
     const createOrderPromises = uniqueShopIds.map((shopId) => {
-      const itemsForThisShop = cartItems.filter((cartItem: CartItemType) => cartItem.item.shopId === shopId);
+      const itemsForThisShop = cartItems.filter((cartItem: any) => cartItem.item.shopId === shopId);
 
-      const shopTotalAmount = itemsForThisShop.reduce((total: number, cartItem: CartItemType) => {
+      const shopTotalAmount = itemsForThisShop.reduce((total: number, cartItem: any) => {
         const itemPrice = Number(cartItem.item.price);
         return total + itemPrice * cartItem.quantity;
       }, 0);
@@ -54,7 +52,7 @@ export const placeOrder = async (req: Request, res: Response) => {
           cartId: profileCartId,
           totalAmount: shopTotalAmount,
           orderItems: {
-            create: itemsForThisShop.map((cartItem: CartItemType) => ({
+            create: itemsForThisShop.map((cartItem: any) => ({
               itemId: cartItem.item.id,
               productName: cartItem.item.name,
               priceAtTime: cartItem.item.price,

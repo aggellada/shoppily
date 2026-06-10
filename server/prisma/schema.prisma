@@ -141,6 +141,7 @@ enum Role {
 
 enum Status {
   PENDING
-  PAID
+  COMPLETED
   SHIPPED
+  DELIVERED
 }
