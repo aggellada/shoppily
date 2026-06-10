@@ -99,11 +99,11 @@ function Signup() {
           <button
             type="submit"
             disabled={isSigningUp}
-            className="w-full mt-2 p-3.5 bg-gray-900 text-white rounded-xl text-sm font-semibold tracking-wide hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all"
+            className="w-full mt-2 p-3.5 bg-gray-900 text-white rounded-xl text-sm font-semibold tracking-wide hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all hover:cursor-pointer"
           >
             {isSigningUp ? (
               <div className="flex m-auto gap-4">
-                <Loader2 className="animate spin" />
+                <Loader2 className="animate-spin" />
                 "Setting up your account..."
               </div>
             ) : (
