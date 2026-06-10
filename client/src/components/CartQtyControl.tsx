@@ -7,11 +7,7 @@ function CartQtyControl({ shopId, itemId, itemQty }: { shopId: string; itemId: n
 
   const { decrementItemCartQty, incrementItemCartQty } = useCartStore();
 
-  const handleIncrementBtn = async (
-    e: any,
-    shopId: string,
-    itemId: number,
-  ) => {
+  const handleIncrementBtn = async (e: any, shopId: string, itemId: number) => {
     e.stopPropagation();
     setIsUpdatingQty(true);
 
@@ -20,11 +16,7 @@ function CartQtyControl({ shopId, itemId, itemQty }: { shopId: string; itemId: n
     setIsUpdatingQty(false);
   };
 
-  const handleDecrementBtn = async (
-    e: any,
-    shopId: string,
-    itemId: number,
-  ) => {
+  const handleDecrementBtn = async (e: any, shopId: string, itemId: number) => {
     e.stopPropagation();
     setIsUpdatingQty(true);
 

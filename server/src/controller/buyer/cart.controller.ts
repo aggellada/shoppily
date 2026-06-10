@@ -100,8 +100,8 @@ export const deleteCartItem = async (req: Request, res: Response) => {
       return res.status(401).json({ success: false, message: "You are not authenticated" });
     }
 
-    if (!itemId || isNaN(parsedItemId) || !shopId) {
-      return res.status(400).json({ success: false, message: "Item ID and Shop ID are required" });
+    if (!itemId || isNaN(parsedItemId)) {
+      return res.status(400).json({ success: false, message: "Item ID is required" });
     }
 
     const result = await prisma.cartItem.deleteMany({

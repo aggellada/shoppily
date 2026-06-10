@@ -1,9 +1,8 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { prisma } from "../lib/prisma";
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import { ROLES } from "../lib/roles";
-import type { Prisma } from "@prisma/client/extension";
 
 export const signup = async (req: Request, res: Response) => {
   const { firstName, lastName, username, email, password, role, shopName } = req.body;
@@ -19,7 +18,7 @@ export const signup = async (req: Request, res: Response) => {
 
     const hashedPassword = await argon2.hash(password);
 
-    const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    const result = await prisma.$transaction(async (tx) => {
       const newUser = await tx.user.create({
         data: {
           firstName,
@@ -78,7 +77,11 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "User does not exists." });
     }
 
-    const verifiedPassword = await argon2.verify(user?.password, password);
+    // if (user.profile?.role === ROLES.SELLER) {
+    // {user.profile?.role === ROLES.SELLER && include: {shop: true}}
+    // }
+
+    const verifiedPassword = argon2.verify(user?.password, password);
 
     if (!verifiedPassword) {
       return res.status(400).json({ succes: false, message: "Invalid access" });
@@ -90,14 +93,13 @@ export const login = async (req: Request, res: Response) => {
       throw new Error("No JWT Key");
     }
 
-    const isProduction = process.env.NODE_ENV === "production";
     const token = jwt.sign({ id: user.id, role: user.profile?.role }, secret, { expiresIn: "1d" });
 
     res.cookie("jwt", token, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: isProduction ? "none" : "lax",
-      secure: isProduction,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
     });
 
     const { password: _, ...userWithoutPassword } = user;
@@ -130,12 +132,10 @@ export const checkAuth = async (req: Request, res: Response) => {
 
 export const logout = async (req: Request, res: Response) => {
   try {
-    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("jwt", "", {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: isProduction ? "none" : "lax",
-      secure: isProduction,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
       expires: new Date(0),
     });
 

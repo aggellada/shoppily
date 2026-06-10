@@ -1,6 +1,5 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
-import { API_URL } from "../lib/utils";
 
 interface OrderItem {
   id: string;
@@ -41,7 +40,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
   getProfileOrders: async () => {
     set({ isFetchingOrders: true });
     try {
-      const response = await fetch(`${API_URL}/api/order/profile/orders`, {
+      const response = await fetch("http://localhost:5000/api/order/profile/orders", {
         method: "GET",
         credentials: "include",
       });
@@ -63,7 +62,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
   placeOrder: async (getCart: any) => {
     set({ isPlacingOrder: true });
     try {
-      const response = await fetch(`${API_URL}/api/order`, {
+      const response = await fetch("http://localhost:5000/api/order", {
         method: "POST",
         credentials: "include",
       });

@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import type { Item, Shop } from "../types/prisma";
-import { API_URL } from "../lib/utils";
 
 interface ShopTypes {
   isCreatingShop: boolean;
@@ -18,7 +17,7 @@ export const useShopStore = create<ShopTypes>((set) => ({
 
   createShop: async (formData: any) => {
     try {
-      const response = await fetch(`${API_URL}/api/shop/create`, {
+      const response = await fetch("http://localhost:5000/api/shop/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -38,7 +37,7 @@ export const useShopStore = create<ShopTypes>((set) => ({
   getShopItems: async (shopName: string) => {
     set({ fetchingShop: true });
     try {
-      const response = await fetch(`${API_URL}/api/shop/${shopName}/items`, {
+      const response = await fetch(`http://localhost:5000/api/shop/${shopName}/items`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

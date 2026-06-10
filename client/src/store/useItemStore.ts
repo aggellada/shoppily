@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import type { Item } from "../types/prisma";
-import { API_URL } from "../lib/utils";
 
 interface ItemState {
   allItems: Item[] | [];
@@ -24,7 +23,7 @@ export const useItemStore = create<ItemState>((set) => ({
   getItems: async () => {
     set({ isGettingAllItems: true });
     try {
-      const response = await fetch(`${API_URL}/api/item/get/items`);
+      const response = await fetch("http://localhost:5000/api/item/get/items");
 
       const data = await response.json();
 
@@ -43,7 +42,7 @@ export const useItemStore = create<ItemState>((set) => ({
   searchItems: async (itemName: string) => {
     set({ searchingItems: true });
     try {
-      const response = await fetch(`${API_URL}/api/item/search?itemName=${itemName}`);
+      const response = await fetch(`http://localhost:5000/api/item/search?itemName=${itemName}`);
 
       const data = await response.json();
 
@@ -60,7 +59,7 @@ export const useItemStore = create<ItemState>((set) => ({
   getItem: async (itemId: string) => {
     set({ isFetchingItemDetails: true });
     try {
-      const response = await fetch(`${API_URL}/api/item/get/item?itemId=${itemId}`, {
+      const response = await fetch(`http://localhost:5000/api/item/get/item?itemId=${itemId}`, {
         method: "GET",
         credentials: "include",
       });
