@@ -65,11 +65,25 @@ export namespace $Enums {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const Status: {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED'
+};
+
+export type Status = (typeof Status)[keyof typeof Status]
+
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type Status = $Enums.Status
+
+export const Status: typeof $Enums.Status
 
 /**
  * ##  Prisma Client ʲˢ
@@ -8590,7 +8604,7 @@ export namespace Prisma {
   export type OrderMinAggregateOutputType = {
     id: string | null
     totalAmount: Decimal | null
-    status: string | null
+    status: $Enums.Status | null
     createdAt: Date | null
     updatedAt: Date | null
     profileId: string | null
@@ -8601,7 +8615,7 @@ export namespace Prisma {
   export type OrderMaxAggregateOutputType = {
     id: string | null
     totalAmount: Decimal | null
-    status: string | null
+    status: $Enums.Status | null
     createdAt: Date | null
     updatedAt: Date | null
     profileId: string | null
@@ -8753,7 +8767,7 @@ export namespace Prisma {
   export type OrderGroupByOutputType = {
     id: string
     totalAmount: Decimal
-    status: string
+    status: $Enums.Status
     createdAt: Date
     updatedAt: Date
     profileId: string
@@ -8865,7 +8879,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       totalAmount: Prisma.Decimal
-      status: string
+      status: $Enums.Status
       createdAt: Date
       updatedAt: Date
       profileId: string
@@ -9300,7 +9314,7 @@ export namespace Prisma {
   interface OrderFieldRefs {
     readonly id: FieldRef<"Order", 'String'>
     readonly totalAmount: FieldRef<"Order", 'Decimal'>
-    readonly status: FieldRef<"Order", 'String'>
+    readonly status: FieldRef<"Order", 'Status'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
     readonly updatedAt: FieldRef<"Order", 'DateTime'>
     readonly profileId: FieldRef<"Order", 'String'>
@@ -11127,6 +11141,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Status'
+   */
+  export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
+    
+
+
+  /**
+   * Reference to a field of type 'Status[]'
+   */
+  export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -11560,7 +11588,7 @@ export namespace Prisma {
     NOT?: OrderWhereInput | OrderWhereInput[]
     id?: StringFilter<"Order"> | string
     totalAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
-    status?: StringFilter<"Order"> | string
+    status?: EnumStatusFilter<"Order"> | $Enums.Status
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     profileId?: StringFilter<"Order"> | string
@@ -11593,7 +11621,7 @@ export namespace Prisma {
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
     totalAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
-    status?: StringFilter<"Order"> | string
+    status?: EnumStatusFilter<"Order"> | $Enums.Status
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     profileId?: StringFilter<"Order"> | string
@@ -11627,7 +11655,7 @@ export namespace Prisma {
     NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Order"> | string
     totalAmount?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
-    status?: StringWithAggregatesFilter<"Order"> | string
+    status?: EnumStatusWithAggregatesFilter<"Order"> | $Enums.Status
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     profileId?: StringWithAggregatesFilter<"Order"> | string
@@ -12129,7 +12157,7 @@ export namespace Prisma {
   export type OrderCreateInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutOrdersInput
@@ -12141,7 +12169,7 @@ export namespace Prisma {
   export type OrderUncheckedCreateInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profileId: string
@@ -12153,7 +12181,7 @@ export namespace Prisma {
   export type OrderUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutOrdersNestedInput
@@ -12165,7 +12193,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profileId?: StringFieldUpdateOperationsInput | string
@@ -12177,7 +12205,7 @@ export namespace Prisma {
   export type OrderCreateManyInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profileId: string
@@ -12188,7 +12216,7 @@ export namespace Prisma {
   export type OrderUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12196,7 +12224,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profileId?: StringFieldUpdateOperationsInput | string
@@ -12706,6 +12734,13 @@ export namespace Prisma {
     itemId?: SortOrder
   }
 
+  export type EnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
   export type OrderCountOrderByAggregateInput = {
     id?: SortOrder
     totalAmount?: SortOrder
@@ -12745,6 +12780,16 @@ export namespace Prisma {
 
   export type OrderSumOrderByAggregateInput = {
     totalAmount?: SortOrder
+  }
+
+  export type EnumStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -13417,6 +13462,10 @@ export namespace Prisma {
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
+  export type EnumStatusFieldUpdateOperationsInput = {
+    set?: $Enums.Status
+  }
+
   export type ProfileUpdateOneRequiredWithoutOrdersNestedInput = {
     create?: XOR<ProfileCreateWithoutOrdersInput, ProfileUncheckedCreateWithoutOrdersInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutOrdersInput
@@ -13689,6 +13738,23 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type NestedEnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
+  export type NestedEnumStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
+  }
+
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -13856,7 +13922,7 @@ export namespace Prisma {
   export type OrderCreateWithoutProfileInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     shop: ShopCreateNestedOneWithoutOrdersInput
@@ -13867,7 +13933,7 @@ export namespace Prisma {
   export type OrderUncheckedCreateWithoutProfileInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     shopId: string
@@ -13994,7 +14060,7 @@ export namespace Prisma {
     NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
     id?: StringFilter<"Order"> | string
     totalAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
-    status?: StringFilter<"Order"> | string
+    status?: EnumStatusFilter<"Order"> | $Enums.Status
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     profileId?: StringFilter<"Order"> | string
@@ -14069,7 +14135,7 @@ export namespace Prisma {
   export type OrderCreateWithoutShopInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutOrdersInput
@@ -14080,7 +14146,7 @@ export namespace Prisma {
   export type OrderUncheckedCreateWithoutShopInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profileId: string
@@ -14454,7 +14520,7 @@ export namespace Prisma {
   export type OrderCreateWithoutCartInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutOrdersInput
@@ -14465,7 +14531,7 @@ export namespace Prisma {
   export type OrderUncheckedCreateWithoutCartInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profileId: string
@@ -14919,7 +14985,7 @@ export namespace Prisma {
   export type OrderCreateWithoutOrderItemsInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutOrdersInput
@@ -14930,7 +14996,7 @@ export namespace Prisma {
   export type OrderUncheckedCreateWithoutOrderItemsInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profileId: string
@@ -14985,7 +15051,7 @@ export namespace Prisma {
   export type OrderUpdateWithoutOrderItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutOrdersNestedInput
@@ -14996,7 +15062,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateWithoutOrderItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profileId?: StringFieldUpdateOperationsInput | string
@@ -15041,7 +15107,7 @@ export namespace Prisma {
   export type OrderCreateManyProfileInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     shopId: string
@@ -15051,7 +15117,7 @@ export namespace Prisma {
   export type OrderUpdateWithoutProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shop?: ShopUpdateOneRequiredWithoutOrdersNestedInput
@@ -15062,7 +15128,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateWithoutProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -15073,7 +15139,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyWithoutProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -15093,7 +15159,7 @@ export namespace Prisma {
   export type OrderCreateManyShopInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profileId: string
@@ -15145,7 +15211,7 @@ export namespace Prisma {
   export type OrderUpdateWithoutShopInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutOrdersNestedInput
@@ -15156,7 +15222,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateWithoutShopInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profileId?: StringFieldUpdateOperationsInput | string
@@ -15167,7 +15233,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyWithoutShopInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profileId?: StringFieldUpdateOperationsInput | string
@@ -15281,7 +15347,7 @@ export namespace Prisma {
   export type OrderCreateManyCartInput = {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
-    status?: string
+    status?: $Enums.Status
     createdAt?: Date | string
     updatedAt?: Date | string
     profileId: string
@@ -15318,7 +15384,7 @@ export namespace Prisma {
   export type OrderUpdateWithoutCartInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutOrdersNestedInput
@@ -15329,7 +15395,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateWithoutCartInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profileId?: StringFieldUpdateOperationsInput | string
@@ -15340,7 +15406,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyWithoutCartInput = {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profileId?: StringFieldUpdateOperationsInput | string

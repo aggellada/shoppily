@@ -215,6 +215,13 @@ exports.Role = exports.$Enums.Role = {
   SELLER: 'SELLER'
 };
 
+exports.Status = exports.$Enums.Status = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Profile: 'Profile',

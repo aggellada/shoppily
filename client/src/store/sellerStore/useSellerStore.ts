@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { Item, Order, OrderItem, Shop } from "../../types/prisma";
 import toast from "react-hot-toast";
+import { API_URL } from "../../lib/utils";
 
 type ShopWithDetails = Shop & {
   items: Item[];
@@ -32,7 +33,7 @@ export const useSellerStore = create<SellerState>((set, get) => ({
 
   getShop: async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/seller/shop", {
+      const response = await fetch(`${API_URL}/api/seller/shop`, {
         method: "GET",
         credentials: "include",
       });
@@ -52,7 +53,7 @@ export const useSellerStore = create<SellerState>((set, get) => ({
   addStoreItem: async (formData: any) => {
     set({ isAddingStoreItem: true });
     try {
-      const response = await fetch("http://localhost:5000/api/seller/shop/add", {
+      const response = await fetch(`${API_URL}/api/seller/shop/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +79,7 @@ export const useSellerStore = create<SellerState>((set, get) => ({
 
   deleteStoreItem: async (shopId: string, id: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/seller/shop/delete/${shopId}/${id}`, {
+      const response = await fetch(`${API_URL}/api/seller/shop/delete/${shopId}/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -97,7 +98,7 @@ export const useSellerStore = create<SellerState>((set, get) => ({
 
   editStoreItem: async (shopId: string, id: number, formData: any) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/seller/shop/edit/${shopId}/${id}`, {
+      const response = await fetch(`${API_URL}/api/seller/shop/edit/${shopId}/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -122,7 +123,7 @@ export const useSellerStore = create<SellerState>((set, get) => ({
   updateOrderStatus: async (status: string, orderId: string) => {
     set({ isUpdatingOrderStatus: true });
     try {
-      const response = await fetch(`http://localhost:5000/api/seller/shop/update/${status}/${orderId}`, {
+      const response = await fetch(`${API_URL}/api/seller/shop/update/${status}/${orderId}`, {
         method: "PATCH",
         credentials: "include",
       });
