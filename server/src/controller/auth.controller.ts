@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from "express";
+import type { Request, Response } from "express";
 import { prisma } from "../lib/prisma";
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
@@ -77,7 +77,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "User does not exists." });
     }
 
-    const verifiedPassword = argon2.verify(user?.password, password);
+    const verifiedPassword = await argon2.verify(user?.password, password);
 
     if (!verifiedPassword) {
       return res.status(400).json({ succes: false, message: "Invalid access" });
@@ -129,10 +129,13 @@ export const checkAuth = async (req: Request, res: Response) => {
 
 export const logout = async (req: Request, res: Response) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("jwt", "", {
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
       expires: new Date(0),
     });
 
