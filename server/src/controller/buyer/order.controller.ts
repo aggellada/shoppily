@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "../../lib/prisma.js";
+import type { CartItem } from "../../generated/prisma/client.js";
 
 export const placeOrder = async (req: Request, res: Response) => {
   try {
@@ -35,13 +36,13 @@ export const placeOrder = async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: "No cart or items found." });
     }
 
-    const shopsId = cartItems.map((cartItem) => cartItem.item.shopId);
+    const shopsId = cartItems.map((cartItem: CartItem) => cartItem.item.shopId);
     const uniqueShopIds = [...new Set(shopsId)];
 
     const createOrderPromises = uniqueShopIds.map((shopId) => {
-      const itemsForThisShop = cartItems.filter((cartItem) => cartItem.item.shopId === shopId);
+      const itemsForThisShop = cartItems.filter((cartItem: CartItem) => cartItem.item.shopId === shopId);
 
-      const shopTotalAmount = itemsForThisShop.reduce((total, cartItem) => {
+      const shopTotalAmount = itemsForThisShop.reduce((total: number, cartItem: CartItem) => {
         const itemPrice = Number(cartItem.item.price);
         return total + itemPrice * cartItem.quantity;
       }, 0);
@@ -53,7 +54,7 @@ export const placeOrder = async (req: Request, res: Response) => {
           cartId: profileCartId,
           totalAmount: shopTotalAmount,
           orderItems: {
-            create: itemsForThisShop.map((cartItem) => ({
+            create: itemsForThisShop.map((cartItem: CartItem) => ({
               itemId: cartItem.item.id,
               productName: cartItem.item.name,
               priceAtTime: cartItem.item.price,

@@ -1,4 +1,4 @@
-import { prisma } from "./prisma";
+import { prisma } from "./prisma.js";
 
 export const fetchCartData = async (profileId: string) => {
   const userCart = await prisma.cart.findUnique({

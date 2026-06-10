@@ -2,7 +2,8 @@ import type { Request, Response } from "express";
 import { prisma } from "../lib/prisma.js";
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
-import { ROLES } from "../lib/roles";
+import { ROLES } from "../lib/roles.js";
+import type { Prisma } from "@prisma/client/extension";
 
 export const signup = async (req: Request, res: Response) => {
   const { firstName, lastName, username, email, password, role, shopName } = req.body;
@@ -18,7 +19,7 @@ export const signup = async (req: Request, res: Response) => {
 
     const hashedPassword = await argon2.hash(password);
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const newUser = await tx.user.create({
         data: {
           firstName,

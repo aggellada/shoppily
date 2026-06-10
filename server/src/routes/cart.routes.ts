@@ -6,7 +6,7 @@ import {
   getCart,
   incrementItemCartQty,
 } from "../controller/buyer/cart.controller.js";
-import { isBuyer, protectRoute } from "../middleware/auth.middleware";
+import { isBuyer, protectRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 

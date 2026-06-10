@@ -1,19 +1,27 @@
 {
+  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    // 1. File Layout (Fixed)
+    // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
 
-    // 2. Environment Settings (Fixed for Node.js)
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "target": "ES2022",
-
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "nodenext",
+    "target": "esnext",
+    // "types": [],
+    // For nodejs:
     "lib": ["esnext"],
     "types": ["node"],
+    // and npm install -D @types/node
 
     "esModuleInterop": true,
-    "ignoreDeprecations": "6.0",
+    "allowSyntheticDefaultImports": true,
+
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@prisma/client": ["./src/generated/prisma/client"]
+    // },
 
     // Other Outputs
     "sourceMap": true,
@@ -22,16 +30,24 @@
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": false,
+    "exactOptionalPropertyTypes": true,
+
+    // Style Options
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
 
     // Recommended Options
     "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
     "isolatedModules": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
   },
-
-  // 3. Folder targeting (Fixed for Editor Errors)
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "src/types/**/*.d.ts"]
 }

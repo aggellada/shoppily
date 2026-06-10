@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { prisma } from "../lib/prisma";
-import { ROLES } from "../lib/roles";
+import { prisma } from "../lib/prisma.js";
+import { ROLES } from "../lib/roles.js";
 
 interface JwtPayload {
   id: string;
