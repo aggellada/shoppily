@@ -4,14 +4,14 @@ import cors from "cors";
 import "dotenv/config";
 
 // BUYER ROUTES
-import authRoutes from "./routes/auth.routes.js";
-import shopRoutes from "./routes/shop.routes.js";
-import itemRoutes from "./routes/item.routes.js";
-import cartRoutes from "./routes/cart.routes.js";
-import orderRoutes from "./routes/order.routes.js";
+import authRoutes from "./routes/auth.routes";
+import shopRoutes from "./routes/shop.routes";
+import itemRoutes from "./routes/item.routes";
+import cartRoutes from "./routes/cart.routes";
+import orderRoutes from "./routes/order.routes";
 
 // SELLER ROUTES
-import sellerShopRoutes from "./routes/seller/seller.shop.routes.js";
+import sellerShopRoutes from "./routes/seller/seller.shop.routes";
 
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
