@@ -34,8 +34,6 @@ function ItemPage() {
     setIsAddingToCart(false);
   };
 
-  console.log(itemDetails);
-
   if (!itemDetails || isFetchingItemDetails) {
     return <ItemPageSkeleton />;
   }

@@ -87,6 +87,7 @@ export const useAuthStore = create<AuthType>((set) => ({
   },
 
   signup: async (formData: any) => {
+    set({ isSigningUp: true });
     try {
       const response = await fetch(`${API_URL}/api/auth/signup`, {
         method: "POST",
@@ -102,6 +103,8 @@ export const useAuthStore = create<AuthType>((set) => ({
       }
     } catch (error) {
       console.error("Error in login store", error);
+    } finally {
+      set({ isSigningUp: false });
     }
   },
 }));

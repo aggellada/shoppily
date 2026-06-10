@@ -32,8 +32,6 @@ function App() {
     );
   }
 
-  console.log(authUser);
-
   return (
     <div className="w-full min-h-screen bg-gray-50">
       <Navbar />

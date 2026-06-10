@@ -40,8 +40,6 @@ function OrdersProfile() {
     );
   }
 
-  console.log(orders);
-
   return (
     <div className="w-full max-w-4xl mx-auto mt-8 mb-16 px-4">
       <div className="flex items-center gap-3 mb-8">

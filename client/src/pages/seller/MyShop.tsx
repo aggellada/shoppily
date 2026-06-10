@@ -31,8 +31,6 @@ function MyShop() {
     setModal(false);
   };
 
-  console.log(shop);
-
   return (
     <div className="w-full mt-8">
       {modal && (
