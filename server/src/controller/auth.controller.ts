@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { prisma } from "../lib/prisma.js";
+import { prisma } from "../lib/prisma";
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
-import { ROLES } from "../lib/roles.js";
+import { ROLES } from "../lib/roles";
 import type { Prisma } from "@prisma/client/extension";
 
 export const signup = async (req: Request, res: Response) => {

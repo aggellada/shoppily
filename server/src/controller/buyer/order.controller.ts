@@ -1,6 +1,5 @@
 import type { Request, Response } from "express";
 import { prisma } from "../../lib/prisma.js";
-import type { CartItem } from "../../generated/prisma/client.js";
 
 export const placeOrder = async (req: Request, res: Response) => {
   try {
@@ -10,7 +9,6 @@ export const placeOrder = async (req: Request, res: Response) => {
 
     const { id: profileId } = req.user.profile;
 
-    // 1. UPDATE: Make sure we select id and name so we can save them to the OrderItem!
     const profileCart = await prisma.cart.findUnique({
       where: { profileId },
       include: {
@@ -36,13 +34,13 @@ export const placeOrder = async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: "No cart or items found." });
     }
 
-    const shopsId = cartItems.map((cartItem: CartItem) => cartItem.item.shopId);
+    const shopsId = cartItems.map((cartItem) => cartItem.item.shopId);
     const uniqueShopIds = [...new Set(shopsId)];
 
     const createOrderPromises = uniqueShopIds.map((shopId) => {
-      const itemsForThisShop = cartItems.filter((cartItem: CartItem) => cartItem.item.shopId === shopId);
+      const itemsForThisShop = cartItems.filter((cartItem) => cartItem.item.shopId === shopId);
 
-      const shopTotalAmount = itemsForThisShop.reduce((total: number, cartItem: CartItem) => {
+      const shopTotalAmount = itemsForThisShop.reduce((total: number, cartItem) => {
         const itemPrice = Number(cartItem.item.price);
         return total + itemPrice * cartItem.quantity;
       }, 0);
@@ -54,7 +52,8 @@ export const placeOrder = async (req: Request, res: Response) => {
           cartId: profileCartId,
           totalAmount: shopTotalAmount,
           orderItems: {
-            create: itemsForThisShop.map((cartItem: CartItem) => ({
+            // FIX: Removed ": CartItem"
+            create: itemsForThisShop.map((cartItem) => ({
               itemId: cartItem.item.id,
               productName: cartItem.item.name,
               priceAtTime: cartItem.item.price,

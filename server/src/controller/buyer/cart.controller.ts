@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../lib/prisma.js";
-import { fetchCartData } from "../../lib/helpers.js";
+import { prisma } from "../../lib/prisma";
+import { fetchCartData } from "../../lib/helpers";
 
 export const getCart = async (req: Request, res: Response) => {
   try {
@@ -100,8 +100,8 @@ export const deleteCartItem = async (req: Request, res: Response) => {
       return res.status(401).json({ success: false, message: "You are not authenticated" });
     }
 
-    if (!itemId || isNaN(parsedItemId)) {
-      return res.status(400).json({ success: false, message: "Item ID is required" });
+    if (!itemId || isNaN(parsedItemId) || !shopId) {
+      return res.status(400).json({ success: false, message: "Item ID and Shop ID are required" });
     }
 
     const result = await prisma.cartItem.deleteMany({
