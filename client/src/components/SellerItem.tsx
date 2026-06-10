@@ -37,7 +37,6 @@ function SellerItem({ item }: { item: any }) {
     setModal(false);
   };
 
-  console.log(item);
   return (
     <div className="bg-[#FFFFFF] p-4 flex flex-col h-full gap-1 rounded-2xl border-2 border-gray-200 drop-shadow-lg hover:-translate-y-1 transition-transform duration-75 ">
       {modal && (
@@ -137,15 +136,9 @@ function SellerItem({ item }: { item: any }) {
           </div>
         </dialog>
       )}
-      <img
-        src={item.image}
-        alt="product image"
-        // 2. Image constraint so large uploads don't break mobile views
-        className="w-full h-48 object-cover rounded-lg mb-2"
-      />
+      <img src={item.image} alt="product image" className="w-full h-48 object-cover rounded-lg mb-2" />
 
       <div className="flex justify-between gap-2">
-        {/* Added `truncate` to stop long item names from pushing the stars away */}
         <p className="font-bold text-lg truncate">{item.name}</p>
         <span className="flex gap-1 shrink-0">
           5 <Star className="text-yellow-300 w-5 h-5" />
@@ -154,19 +147,16 @@ function SellerItem({ item }: { item: any }) {
 
       <p className="font-medium text-red-500">₱{item.price}</p>
 
-      {/* Added `line-clamp-2` to keep descriptions consistent */}
       <p className="text-sm line-clamp-2">{item.description}</p>
 
       <div className="flex gap-2">
         <button
-          // 3. Added `mt-auto` to force the button to the absolute bottom
           className={`hover:cursor-pointer w-full mt-auto drop-shadow-md rounded-md py-2 px-2 bg-blue-600 hover:bg-blue-400 text-white transition-colors `}
           onClick={() => setModal(true)}
         >
           Edit
         </button>
         <button
-          // 3. Added `mt-auto` to force the button to the absolute bottom
           className={`hover:cursor-pointer w-full mt-auto drop-shadow-md rounded-md py-2 px-2 hover:bg-red-400 text-white transition-colors bg-red-600 `}
           onClick={() => handleDeleteBtn(item.shopId, item.id)}
           disabled={isDeletingItem}

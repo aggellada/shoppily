@@ -22,7 +22,10 @@ export const getShop = async (req: Request, res: Response) => {
             createdAt: "desc",
           },
         },
-        orders: true,
+        orders: {
+          include: { orderItems: { include: { item: true } }, shop: true },
+          orderBy: { createdAt: "desc" },
+        },
       },
     });
 

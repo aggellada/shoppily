@@ -103,7 +103,7 @@ model CartItem {
 model Order {
   id          String   @id @default(uuid()) // Changed to UUID for security
   totalAmount Decimal
-  status      String   @default("PENDING") // e.g., PENDING, PAID, SHIPPED
+  status      Status   @default(PENDING) // e.g., PENDING, PAID, SHIPPED
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -137,4 +137,10 @@ model OrderItem {
 enum Role {
   BUYER
   SELLER
+}
+
+enum Status {
+  PENDING
+  PAID
+  SHIPPED
 }

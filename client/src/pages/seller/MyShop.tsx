@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSellerStore } from "../../store/sellerStore/useSellerStore";
-import { Package, ShoppingBag, Store, TrendingUp, X } from "lucide-react";
+import { Loader2, Package, ShoppingBag, Store, TrendingUp, X } from "lucide-react";
 import SellerItem from "../../components/SellerItem";
 
 function MyShop() {
@@ -114,7 +114,7 @@ function MyShop() {
                   type="submit"
                   className="flex-1 px-4 py-3 rounded-xl font-semibold text-white bg-gray-900 hover:bg-gray-800 transition-colors shadow-sm hover:cursor-pointer"
                 >
-                  Save Item
+                  {isAddingStoreItem ? <Loader2 className="m-auto animate-spin" /> : "Save Item"}
                 </button>
               </div>
             </form>

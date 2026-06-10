@@ -61,3 +61,33 @@ export const getShopOrders = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const updateOrderStatus = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: "You are not authenticated" });
+    }
+
+    const { status, orderId } = req.params as unknown as {
+      status: string;
+      orderId: string;
+    };
+
+    if (!status || !orderId) {
+      return;
+    }
+
+    const updatedOrder = await prisma.order.update({ where: { id: orderId }, data: { status } });
+
+    if (!updatedOrder) {
+      return res.status(500).json({ success: false, message: "Could not update order status" });
+    }
+
+    return res.status(200).json({ success: true, message: "Successfully updated order status" });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error in getShopOrders controller:", error.message);
+      return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+  }
+};
