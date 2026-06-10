@@ -1,5 +1,7 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "../../lib/prisma.js";
+
+type CartItemType = NonNullable<Awaited<ReturnType<typeof prisma.cart.findUnique>>>["items"][number];
 
 export const placeOrder = async (req: Request, res: Response) => {
   try {
@@ -9,7 +11,6 @@ export const placeOrder = async (req: Request, res: Response) => {
 
     const { id: profileId } = req.user.profile;
 
-    // 1. UPDATE: Make sure we select id and name so we can save them to the OrderItem!
     const profileCart = await prisma.cart.findUnique({
       where: { profileId },
       include: {
@@ -28,20 +29,20 @@ export const placeOrder = async (req: Request, res: Response) => {
       },
     });
 
-    const profileCartId = profileCart?.id;
-    const cartItems = profileCart?.items || [];
-
-    if (!profileCartId || cartItems.length === 0) {
+    if (!profileCart || profileCart.items.length === 0) {
       return res.status(400).json({ success: false, message: "No cart or items found." });
     }
 
-    const shopsId = cartItems.map((cartItem) => cartItem.item.shopId);
+    const profileCartId = profileCart?.id;
+    const cartItems = profileCart?.items || [];
+
+    const shopsId = cartItems.map((cartItem: CartItemType) => cartItem.item.shopId);
     const uniqueShopIds = [...new Set(shopsId)];
 
     const createOrderPromises = uniqueShopIds.map((shopId) => {
-      const itemsForThisShop = cartItems.filter((cartItem) => cartItem.item.shopId === shopId);
+      const itemsForThisShop = cartItems.filter((cartItem: CartItemType) => cartItem.item.shopId === shopId);
 
-      const shopTotalAmount = itemsForThisShop.reduce((total, cartItem) => {
+      const shopTotalAmount = itemsForThisShop.reduce((total: number, cartItem: CartItemType) => {
         const itemPrice = Number(cartItem.item.price);
         return total + itemPrice * cartItem.quantity;
       }, 0);
@@ -53,7 +54,7 @@ export const placeOrder = async (req: Request, res: Response) => {
           cartId: profileCartId,
           totalAmount: shopTotalAmount,
           orderItems: {
-            create: itemsForThisShop.map((cartItem) => ({
+            create: itemsForThisShop.map((cartItem: CartItemType) => ({
               itemId: cartItem.item.id,
               productName: cartItem.item.name,
               priceAtTime: cartItem.item.price,

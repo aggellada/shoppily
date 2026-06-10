@@ -5,8 +5,8 @@ import {
   deleteCartItem,
   getCart,
   incrementItemCartQty,
-} from "../controller/buyer/cart.controller";
-import { isBuyer, protectRoute } from "../middleware/auth.middleware";
+} from "../controller/buyer/cart.controller.js";
+import { isBuyer, protectRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 

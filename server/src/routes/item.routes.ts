@@ -1,6 +1,6 @@
 import express from "express";
-import { getAllItems, getItem, searchItems } from "../controller/item.controller";
-import { isSeller, protectRoute } from "../middleware/auth.middleware";
+import { getAllItems, getItem, searchItems } from "../controller/item.controller.js";
+
 
 const router = express.Router();
 

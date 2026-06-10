@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../lib/prisma";
-import { fetchCartData } from "../../lib/helpers";
+import { prisma } from "../../lib/prisma.js";
+import { fetchCartData } from "../../lib/helpers.js";
 
 export const getCart = async (req: Request, res: Response) => {
   try {

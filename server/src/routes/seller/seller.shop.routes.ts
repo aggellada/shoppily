@@ -1,7 +1,7 @@
 import express from "express";
-import { addItem, deleteItem, getShop, updateItem } from "../../controller/seller/seller.shop.conroller";
-import { isSeller, protectRoute } from "../../middleware/auth.middleware";
-import { updateOrderStatus } from "../../controller/seller/seller.order.controller";
+import { addItem, deleteItem, getShop, updateItem } from "../../controller/seller/seller.shop.conroller.js";
+import { isSeller, protectRoute } from "../../middleware/auth.middleware.js";
+import { updateOrderStatus } from "../../controller/seller/seller.order.controller.js";
 
 const router = express.Router();
 
