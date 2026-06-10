@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import { prisma } from "../lib/prisma.js";
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import { ROLES } from "../lib/roles";

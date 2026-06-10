@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllItems, getItem, searchItems } from "../controller/item.controller";
+import { getAllItems, getItem, searchItems } from "../controller/item.controller.js";
 import { isSeller, protectRoute } from "../middleware/auth.middleware";
 
 const router = express.Router();
