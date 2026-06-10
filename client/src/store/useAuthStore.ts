@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthType>((set) => ({
   checkAuth: async () => {
     set({ isCheckingAuth: true });
     try {
-      const response = await fetch("http://localhost:5000/api/auth/check-auth", {
+      const response = await fetch(`${API_URL}/api/auth/check-auth`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export const useAuthStore = create<AuthType>((set) => ({
   login: async (formData: any) => {
     set({ isLoggingIn: true });
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
