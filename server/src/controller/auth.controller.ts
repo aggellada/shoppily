@@ -130,7 +130,6 @@ export const checkAuth = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
   try {
     const isProduction = process.env.NODE_ENV === "production";
-
     res.cookie("jwt", "", {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
