@@ -37,6 +37,7 @@ function App() {
       <Navbar />
       <div className="m-auto w-full max-w-7xl">
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route
             path="/login"
             element={
@@ -52,7 +53,6 @@ function App() {
           <Route path="/signup" element={!authUser ? <Signup /> : <Navigate to="/" />} />
 
           <Route element={<BuyerRoute />}>
-            <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<OrdersProfile />} />
             <Route path="/shop/:shopName" element={<ShopPage />} />
